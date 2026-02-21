@@ -28,29 +28,7 @@ height:100%;
 background:rgba(0,0,0,0.25);
 z-index:0;
 }
-.music-btn{
-position:fixed;
-top:20px;
-right:20px;
-width:50px;
-height:50px;
-background:rgba(0,0,0,0.6);
-color:white;
-display:flex;
-justify-content:center;
-align-items:center;
-border-radius:50%;
-font-size:22px;
-cursor:pointer;
-z-index:10;
-transition:0.3s;
-backdrop-filter:blur(5px);
-}
 
-.music-btn:hover{
-transform:scale(1.1);
-background:rgba(0,0,0,0.8);
-}
 .container{
 position:relative;
 z-index:2;
@@ -139,6 +117,31 @@ animation:fall 4s linear forwards;
 to{transform:translateY(100vh);opacity:0;}
 }
 
+/* кнопка музыки */
+.music-btn{
+position:fixed;
+top:20px;
+right:20px;
+width:50px;
+height:50px;
+background:rgba(0,0,0,0.6);
+color:white;
+display:flex;
+justify-content:center;
+align-items:center;
+border-radius:50%;
+font-size:22px;
+cursor:pointer;
+z-index:10;
+transition:0.3s;
+backdrop-filter:blur(5px);
+}
+
+.music-btn:hover{
+transform:scale(1.1);
+background:rgba(0,0,0,0.8);
+}
+
 @media (max-width:480px){
 h1{font-size:20px;}
 p{font-size:14px;}
@@ -146,28 +149,22 @@ button{font-size:13px;padding:10px 18px;}
 }
 </style>
 </head>
-<!-- Кнопка музыки -->
-<div class="music-btn" onclick="toggleMusic()" id="musicBtn">
-    🔇
-</div>
 
-<audio id="bgMusic" loop>
-    <source src="nashid.mp3" type="audio/mpeg">
-</audio>
 <body>
 
 <div class="container">
 <h1>🌙 Моё приглашение для тебя</h1>
 
 <p>
-Я хочу разделить этот ифтар именно с тобой 💖<br>
+В этот особенный вечер<br>
+я хочу разделить ифтар именно с тобой 💖<br>
 Ты сделаешь этот вечер особенным?
 </p>
 
 <p>
-📅 25 марта<br>
-🕰 18:45<br>
-📍 Сюрприз для тебя
+📅 22.02.2026<br>
+🕰 17:49<br>
+📍 кафе Аль Баракат
 </p>
 
 <div class="timer" id="countdown"></div>
@@ -176,37 +173,21 @@ button{font-size:13px;padding:10px 18px;}
 <button class="yes" onclick="accept()">Я буду 💕</button>
 <button class="no" id="noBtn" onclick="decline()">Нет 😅</button>
 </div>
-
 </div>
 
-<audio id="bgMusic" autoplay loop>
-<source src="nashid.mp3" type="audio/mpeg">
+<!-- кнопка музыки -->
+<div class="music-btn" onclick="toggleMusic()" id="musicBtn">🔇</div>
+<audio id="bgMusic" loop>
+    <source src="nashid.mp3" type="audio/mpeg">
 </audio>
 
 <script>
-    
-function toggleMusic(){
-let music=document.getElementById("bgMusic");
-let btn=document.getElementById("musicBtn");
 
-if(music.paused){
-music.play();
-btn.innerHTML="🎵";
-}else{
-music.pause();
-btn.innerHTML="🔇";
-}
-}
-
-// Музыка запускается при первом касании или клике
+/* авто музыка после клика */
 document.addEventListener("click", function startMusic() {
-    let music = document.getElementById("bgMusic");
-    music.play();
+    let music=document.getElementById("bgMusic");
+    music.play().catch(()=>{});
     document.removeEventListener("click", startMusic);
-});
-/* музыка */
-window.addEventListener("load",()=>{
-document.getElementById("bgMusic").play().catch(()=>{});
 });
 
 /* звезды */
@@ -233,7 +214,7 @@ setTimeout(()=>heart.remove(),12000);
 setInterval(createFloatingHeart,700);
 
 /* таймер */
-let countDate=new Date("Mar 25, 2026 18:45:00").getTime();
+let countDate=new Date("Feb 22, 2026 17:49:00").getTime();
 setInterval(()=>{
 let now=new Date().getTime();
 let distance=countDate-now;
@@ -249,7 +230,7 @@ document.getElementById("countdown").innerHTML="Наш вечер начался
 }
 },1000);
 
-/* если согласилась */
+/* при согласии */
 function accept(){
 for(let i=0;i<30;i++){
 let heart=document.createElement("div");
@@ -259,23 +240,30 @@ heart.style.left=Math.random()*100+"%";
 heart.style.top="-20px";
 document.body.appendChild(heart);
 }
-setTimeout(()=>{
-alert("💖 Я буду ждать тебя 🌙");
-},500);
+setTimeout(()=>{alert("💖 Я буду ждать тебя 🌙");},500);
 }
 
-/* если нажала нет — кнопка исчезает */
+/* если нажала «Нет» — исчезает кнопка */
 function decline(){
 let noBtn=document.getElementById("noBtn");
 noBtn.style.opacity="0";
 noBtn.style.transform="scale(0.5)";
-setTimeout(()=>{
-noBtn.style.display="none";
-},300);
+setTimeout(()=>{noBtn.style.display="none";},300);
 }
 
+/* кнопка музыки */
+function toggleMusic(){
+let music=document.getElementById("bgMusic");
+let btn=document.getElementById("musicBtn");
+if(music.paused){
+music.play();
+btn.innerHTML="🎵";
+}else{
+music.pause();
+btn.innerHTML="🔇";
+}
+}
 </script>
 
 </body>
 </html>
-
